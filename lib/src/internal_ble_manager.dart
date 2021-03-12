@@ -190,12 +190,12 @@ class InternalBleManager
   @override
   Future<List<Peripheral>> knownPeripherals(
       List<String> peripheralIdentifiers) {
-    return _bleLib.knownDevices(peripheralIdentifiers ?? []);
+    return _bleLib.knownDevices(peripheralIdentifiers);
   }
 
   @override
   Future<List<Peripheral>> connectedPeripherals(List<String> serviceUuids) {
-    return _bleLib.connectedDevices(serviceUuids ?? []);
+    return _bleLib.connectedDevices(serviceUuids);
   }
 
   @override

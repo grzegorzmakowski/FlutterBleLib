@@ -66,7 +66,7 @@ mixin DeviceConnectionMixin on FlutterBLE {
           sourceStream,
           cancelOnError: true,
         )
-        .then((value) => controller?.close());
+        .then((value) => controller.close());
 
     return controller.stream;
   }

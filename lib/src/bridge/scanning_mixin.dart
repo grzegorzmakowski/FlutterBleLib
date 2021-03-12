@@ -41,7 +41,7 @@ mixin ScanningMixin on FlutterBLE {
 
     streamController
         .addStream(_scanEvents!, cancelOnError: true)
-        .then((_) => streamController?.close());
+        .then((_) => streamController.close());
 
     return streamController.stream;
   }

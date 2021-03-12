@@ -255,7 +255,7 @@ mixin CharacteristicsMixin on FlutterBLE {
 
     streamController
         .addStream(stream, cancelOnError: true)
-        .then((_) => streamController?.close());
+        .then((_) => streamController.close());
 
     return streamController.stream;
   }
