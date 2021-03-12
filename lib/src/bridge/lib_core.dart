@@ -1,14 +1,14 @@
 part of _internal;
 
 abstract class FlutterBLE {
-  InternalBleManager _manager;
+  InternalBleManager? _manager;
 
   final MethodChannel _methodChannel =
       const MethodChannel(ChannelName.flutterBleLib);
 
-  Future<void> cancelTransaction(String transactionId) async {
+  Future<void> cancelTransaction(String? transactionId) async {
     await _methodChannel.invokeMethod(MethodName.cancelTransaction,
-        <String, String>{ArgumentName.transactionId: transactionId});
+        <String, String?>{ArgumentName.transactionId: transactionId});
     return;
   }
 }
@@ -33,7 +33,7 @@ class FlutterBleLib extends FlutterBLE
     _manager = manager;
   }
 
-  Future<List<Peripheral>> restoredState() => _restoreStateEvents
+  Future<List<Peripheral>?> restoredState() => _restoreStateEvents
       .map(
         (jsonString) {
           if (jsonString == null)
@@ -51,8 +51,8 @@ class FlutterBleLib extends FlutterBLE
       .take(1)
       .single;
 
-  Future<void> createClient(String restoreStateIdentifier) async {
-    await _methodChannel.invokeMethod(MethodName.createClient, <String, String>{
+  Future<void> createClient(String? restoreStateIdentifier) async {
+    await _methodChannel.invokeMethod(MethodName.createClient, <String, String?>{
       ArgumentName.restoreStateIdentifier: restoreStateIdentifier
     });
     return;

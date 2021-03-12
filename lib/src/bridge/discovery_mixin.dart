@@ -14,13 +14,13 @@ mixin DiscoveryMixin on FlutterBLE {
   }
 
   Future<List<Service>> services(Peripheral peripheral) async {
-    String jsonString = await _methodChannel.invokeMethod(
+    String jsonString = await (_methodChannel.invokeMethod(
       MethodName.services,
       <String, dynamic>{
         ArgumentName.deviceIdentifier: peripheral.identifier,
       },
     ).catchError((errorJson) =>
-        Future.error(BleError.fromJson(jsonDecode(errorJson.details))));
+        Future.error(BleError.fromJson(jsonDecode(errorJson.details)))) as FutureOr<String>);
 
     List<Map<String, dynamic>> decodedJson =
         (jsonDecode(jsonString) as List<dynamic>).cast();
@@ -33,14 +33,14 @@ mixin DiscoveryMixin on FlutterBLE {
 
   Future<List<Characteristic>> characteristics(
       Peripheral peripheral, String serviceUuid) async {
-    String jsonString = await _methodChannel.invokeMethod(
+    String jsonString = await (_methodChannel.invokeMethod(
       MethodName.characteristics,
       <String, dynamic>{
         ArgumentName.deviceIdentifier: peripheral.identifier,
         ArgumentName.serviceUuid: serviceUuid,
       },
     ).catchError((errorJson) =>
-        Future.error(BleError.fromJson(jsonDecode(errorJson.details))));
+        Future.error(BleError.fromJson(jsonDecode(errorJson.details)))) as FutureOr<String>);
 
     Map<String, dynamic> jsonObject = jsonDecode(jsonString);
     List<Map<String, dynamic>> jsonCharacteristics =
@@ -54,13 +54,13 @@ mixin DiscoveryMixin on FlutterBLE {
 
   Future<List<Characteristic>> characteristicsForService(
       Service service) async {
-    String jsonString = await _methodChannel.invokeMethod(
+    String jsonString = await (_methodChannel.invokeMethod(
       MethodName.characteristicsForService,
       <String, dynamic>{
         ArgumentName.serviceIdentifier: service._id,
       },
     ).catchError((errorJson) =>
-        Future.error(BleError.fromJson(jsonDecode(errorJson.details))));
+        Future.error(BleError.fromJson(jsonDecode(errorJson.details)))) as FutureOr<String>);
 
     List<Map<String, dynamic>> jsonList =
         (jsonDecode(jsonString) as List<dynamic>).cast();
@@ -75,7 +75,7 @@ mixin DiscoveryMixin on FlutterBLE {
     String serviceUuid,
     String characteristicUuid,
   ) async {
-    String jsonString = await _methodChannel
+    String jsonString = await (_methodChannel
         .invokeMethod(MethodName.descriptorsForDevice, <String, dynamic>{
       ArgumentName.deviceIdentifier: peripheral.identifier,
       ArgumentName.serviceUuid: serviceUuid,
@@ -84,7 +84,7 @@ mixin DiscoveryMixin on FlutterBLE {
       (errorJson) => Future.error(
         BleError.fromJson(jsonDecode(errorJson.details)),
       ),
-    );
+    ) as FutureOr<String>);
 
     Map<String, dynamic> jsonObject = jsonDecode(jsonString);
 
@@ -105,7 +105,7 @@ mixin DiscoveryMixin on FlutterBLE {
     Service service,
     String characteristicUuid,
   ) async {
-    String jsonString = await _methodChannel
+    String jsonString = await (_methodChannel
         .invokeMethod(MethodName.descriptorsForService, <String, dynamic>{
       ArgumentName.serviceIdentifier: service._id,
       ArgumentName.characteristicUuid: characteristicUuid,
@@ -113,7 +113,7 @@ mixin DiscoveryMixin on FlutterBLE {
       (errorJson) => Future.error(
         BleError.fromJson(jsonDecode(errorJson.details)),
       ),
-    );
+    ) as FutureOr<String>);
 
     Map<String, dynamic> jsonObject = jsonDecode(jsonString);
 
@@ -132,14 +132,14 @@ mixin DiscoveryMixin on FlutterBLE {
   Future<List<Descriptor>> descriptorsForCharacteristic(
     Characteristic characteristic,
   ) async {
-    String jsonString = await _methodChannel.invokeMethod(
+    String jsonString = await (_methodChannel.invokeMethod(
         MethodName.descriptorsForCharacteristic, <String, dynamic>{
       ArgumentName.characteristicIdentifier: characteristic._id,
     }).catchError(
       (errorJson) => Future.error(
         BleError.fromJson(jsonDecode(errorJson.details)),
       ),
-    );
+    ) as FutureOr<String>);
 
     Map<String, dynamic> json = jsonDecode(jsonString);
 

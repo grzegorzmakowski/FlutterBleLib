@@ -3,7 +3,7 @@ part of flutter_ble_lib;
 /// Callback used to inform about peripherals restored by the system.
 ///
 /// iOS-specific.
-typedef RestoreStateAction = Function(List<Peripheral> peripherals);
+typedef RestoreStateAction = Function(List<Peripheral>? peripherals);
 
 /// Level of details library is to output in logs.
 enum LogLevel { none, verbose, debug, info, warning, error }
@@ -31,12 +31,12 @@ enum LogLevel { none, verbose, debug, info, warning, error }
 ///});
 ///```
 abstract class BleManager {
-  static BleManager _instance;
+  static BleManager? _instance;
 
   factory BleManager() {
     _instance ??= InternalBleManager();
 
-    return _instance;
+    return _instance!;
   }
 
   /// Cancels transaction's return, resulting in [BleError] with
@@ -59,8 +59,8 @@ abstract class BleManager {
   /// await BleManager().createClient();
   /// ```
   Future<void> createClient({
-    String restoreStateIdentifier,
-    RestoreStateAction restoreStateAction,
+    String? restoreStateIdentifier,
+    RestoreStateAction? restoreStateAction,
   });
 
   /// Frees native resources.
@@ -109,13 +109,13 @@ abstract class BleManager {
   ///
   /// Passing optional [transactionId] lets you discard the result of this
   /// operation before it is finished.
-  Future<void> enableRadio({String transactionId});
+  Future<void> enableRadio({String? transactionId});
 
   /// Disables Bluetooth on Android; NOOP on iOS.
   ///
   /// Passing optional [transactionId] lets you discard the result of this
   /// operation before it is finished.
-  Future<void> disableRadio({String transactionId});
+  Future<void> disableRadio({String? transactionId});
 
   /// Returns current state of the Bluetooth adapter.
   Future<BluetoothState> bluetoothState();
@@ -147,7 +147,7 @@ abstract class BleManager {
   /// On Android [peripheralId] scanned on one  device may or may not be
   /// recognized on a different Android device depending on peripheral’s
   /// implementation and changes in future OS releases.
-  Peripheral createUnsafePeripheral(String peripheralId, {String name});
+  Peripheral createUnsafePeripheral(String peripheralId, {String? name});
 }
 
 /// State of the Bluetooth Adapter.

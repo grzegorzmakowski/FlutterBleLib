@@ -94,7 +94,7 @@ mixin DescriptorsMixin on FlutterBLE {
             Map<String, dynamic> jsonObject = jsonDecode(jsonResponse);
             return DescriptorWithValue.fromJson(
                     jsonObject, descriptor.characteristic, _manager)
-                .value;
+                .value!;
           });
 
   Future<Descriptor> writeDescriptorForPeripheral(

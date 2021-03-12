@@ -19,7 +19,7 @@ const monitorCharacteristicEventChannelName =
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  FlutterBleLib bleLib;
+  late FlutterBleLib bleLib;
   Peripheral peripheral = PeripheralMock();
   MethodChannel methodChannel = MethodChannel(flutterBleLibMethodChannelName);
   MethodChannel eventMethodChannel =
@@ -33,43 +33,43 @@ void main() {
   });
 
   Future<void> emitPlatformError(String errorJson) =>
-      ServicesBinding.instance.defaultBinaryMessenger.handlePlatformMessage(
+      ServicesBinding.instance!.defaultBinaryMessenger.handlePlatformMessage(
           monitorCharacteristicEventChannelName,
           const StandardMethodCodec()
               .encodeErrorEnvelope(code: "irrelevant", details: errorJson),
-          (ByteData data) {});
+          (ByteData? data) {});
 
   Future<void> emitMonitoringEvent(String eventJson) =>
-      ServicesBinding.instance.defaultBinaryMessenger.handlePlatformMessage(
+      ServicesBinding.instance!.defaultBinaryMessenger.handlePlatformMessage(
           monitorCharacteristicEventChannelName,
           const StandardMethodCodec().encodeSuccessEnvelope(eventJson),
-          (ByteData data) {});
+          (ByteData? data) {});
 
   Future<void> emitStreamCompletion() =>
-      ServicesBinding.instance.defaultBinaryMessenger.handlePlatformMessage(
+      ServicesBinding.instance!.defaultBinaryMessenger.handlePlatformMessage(
         monitorCharacteristicEventChannelName,
         null,
-        (ByteData data) {},
+        (ByteData? data) {},
       );
 
   CharacteristicWithValueAndTransactionId createCharacteristicFromDecodedJson(
       Map<dynamic, dynamic> decodedRoot) {
     Map<dynamic, dynamic> decodedCharacteristic = decodedRoot["characteristic"];
-    String transactionId = decodedRoot["transactionId"];
+    String? transactionId = decodedRoot["transactionId"];
     return CharacteristicWithValueAndTransactionId.fromJson(
-      decodedCharacteristic,
-      Service.fromJson(decodedRoot, peripheral, null),
+      decodedCharacteristic as Map<String, dynamic>,
+      Service.fromJson(decodedRoot as Map<String, dynamic>, peripheral, null),
       null,
     ).setTransactionId(transactionId);
   }
 
   Map<dynamic, dynamic> createRawCharacteristic(
-          {int id,
-          int serviceId,
-          String serviceUuid,
-          String characteristicUuid,
-          String transactionId,
-          String base64value}) =>
+          {int? id,
+          int? serviceId,
+          String? serviceUuid,
+          String? characteristicUuid,
+          String? transactionId,
+          String? base64value}) =>
       <String, dynamic>{
         "serviceUuid": serviceUuid,
         "serviceId": serviceId,
@@ -210,7 +210,7 @@ void main() {
     "Monitoring transaction is cancelled after unsubscribing all subscribers from monitoring stream",
     () async {
       //given
-      Stream<Uint8List> monitoringStream =
+      Stream<Uint8List?> monitoringStream =
           bleLib.monitorCharacteristicForIdentifier(peripheral, 1, "1");
       StreamSubscription subscription = monitoringStream.listen((_) {});
 
@@ -238,7 +238,7 @@ void main() {
     "Monitoring transaction is cancelled after unsubscribing the only subscriber from monitoring stream",
     () async {
       //given
-      Stream<Uint8List> monitoringStream =
+      Stream<Uint8List?> monitoringStream =
           bleLib.monitorCharacteristicForIdentifier(peripheral, 1, "1");
       StreamSubscription subscription = monitoringStream.listen((_) {});
 
@@ -263,7 +263,7 @@ void main() {
     "Monitoring transaction is not cancelled after unsubscribing only one subscriber from monitoring stream",
     () async {
       //given
-      Stream<Uint8List> monitoringStream =
+      Stream<Uint8List?> monitoringStream =
           bleLib.monitorCharacteristicForIdentifier(peripheral, 1, "1");
       StreamSubscription subscription = monitoringStream.listen((_) {});
 

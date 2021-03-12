@@ -121,7 +121,7 @@ void main() {
     //then
     verify(
       managerForService.readCharacteristicForService(
-          peripheral, service, "123", argThat(isNotNull)),
+          peripheral, service, "123", argThat(isNotNull)!),
     );
   });
 
@@ -158,7 +158,7 @@ void main() {
     //then
     verify(
       managerForService.readDescriptorForService(
-          service, "123", "456", argThat(isNotNull)),
+          service, "123", "456", argThat(isNotNull)!),
     );
   });
 
@@ -202,7 +202,7 @@ void main() {
     //then
     verify(
       managerForService.writeCharacteristicForService(peripheral, service,
-          "123", Uint8List.fromList([1, 2, 3, 4]), false, argThat(isNotNull)),
+          "123", Uint8List.fromList([1, 2, 3, 4]), false, argThat(isNotNull)!),
     );
   });
 
@@ -243,7 +243,7 @@ void main() {
     //then
     verify(
       managerForService.writeDescriptorForService(service, "123", "456",
-          Uint8List.fromList([1, 2, 3, 4]), argThat(isNotNull)),
+          Uint8List.fromList([1, 2, 3, 4]), argThat(isNotNull)!),
     );
   });
 
@@ -293,7 +293,7 @@ void main() {
     //then
     verify(
       managerForService.monitorCharacteristicForService(
-          peripheral, service, "123", argThat(isNotNull)),
+          peripheral, service, "123", argThat(isNotNull)!),
     );
   });
 }

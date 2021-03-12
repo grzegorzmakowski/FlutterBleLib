@@ -8,17 +8,17 @@ abstract class _ServiceMetadata {
 /// A collection of [Characteristic]s and associated behaviors.
 class Service extends InternalService {
   /// [Peripheral] containing this service.
-  Peripheral peripheral;
+  Peripheral? peripheral;
 
-  ManagerForService _manager;
+  ManagerForService? _manager;
 
   /// The UUID of this service.
-  String uuid;
+  String? uuid;
 
   Service.fromJson(
     Map<String, dynamic> jsonObject,
-    Peripheral peripheral,
-    ManagerForService managerForService,
+    Peripheral? peripheral,
+    ManagerForService? managerForService,
   ) : super(jsonObject[_ServiceMetadata.id]) {
     this.peripheral = peripheral;
     uuid = jsonObject[_ServiceMetadata.uuid];
@@ -27,7 +27,7 @@ class Service extends InternalService {
 
   /// Returns a list of [Characteristic]s of this service.
   Future<List<Characteristic>> characteristics() =>
-      _manager.characteristicsForService(this);
+      _manager!.characteristicsForService(this);
 
   /// Writes the [value] to the [Characteristic] identified by
   /// [characteristicUuid].
@@ -43,9 +43,9 @@ class Service extends InternalService {
     String characteristicUuid,
     Uint8List value,
     bool withResponse, {
-    String transactionId,
+    String? transactionId,
   }) =>
-      _manager.writeCharacteristicForService(
+      _manager!.writeCharacteristicForService(
           peripheral,
           this,
           characteristicUuid,
@@ -61,9 +61,9 @@ class Service extends InternalService {
   /// [Characteristic.isReadable] is `true` can be read.
   Future<CharacteristicWithValue> readCharacteristic(
     String characteristicUuid, {
-    String transactionId,
+    String? transactionId,
   }) =>
-      _manager.readCharacteristicForService(
+      _manager!.readCharacteristicForService(
         peripheral,
         this,
         characteristicUuid,
@@ -80,9 +80,9 @@ class Service extends InternalService {
   /// monitored.
   Stream<CharacteristicWithValue> monitorCharacteristic(
     String characteristicUuid, {
-    String transactionId,
+    String? transactionId,
   }) =>
-      _manager.monitorCharacteristicForService(
+      _manager!.monitorCharacteristicForService(
         peripheral,
         this,
         characteristicUuid,
@@ -94,7 +94,7 @@ class Service extends InternalService {
   Future<List<Descriptor>> descriptorsForCharacteristic(
     String characteristicUuid,
   ) =>
-      _manager.descriptorsForService(
+      _manager!.descriptorsForService(
         this,
         characteristicUuid,
       );
@@ -108,9 +108,9 @@ class Service extends InternalService {
   Future<DescriptorWithValue> readDescriptor(
     String characteristicUuid,
     String descriptorUuid, {
-    String transactionId,
+    String? transactionId,
   }) =>
-      _manager.readDescriptorForService(
+      _manager!.readDescriptorForService(
         this,
         characteristicUuid,
         descriptorUuid,
@@ -125,9 +125,9 @@ class Service extends InternalService {
     String characteristicUuid,
     String descriptorUuid,
     Uint8List value, {
-    String transactionId,
+    String? transactionId,
   }) =>
-      _manager.writeDescriptorForService(
+      _manager!.writeDescriptorForService(
         this,
         characteristicUuid,
         descriptorUuid,
@@ -140,7 +140,7 @@ class Service extends InternalService {
       identical(this, other) ||
       other is Service &&
           runtimeType == other.runtimeType &&
-          peripheral.identifier == other.peripheral.identifier &&
+          peripheral!.identifier == other.peripheral!.identifier &&
           uuid == other.uuid;
 
   @override
@@ -150,6 +150,6 @@ class Service extends InternalService {
   /// [Peripheral.identifier] and [uuid].
   @override
   String toString() {
-    return 'Service{peripheralId: ${peripheral.identifier}, uuid: $uuid}';
+    return 'Service{peripheralId: ${peripheral!.identifier}, uuid: $uuid}';
   }
 }

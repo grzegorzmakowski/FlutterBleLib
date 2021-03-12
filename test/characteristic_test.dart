@@ -92,7 +92,7 @@ void main() {
     //then
     verify(
       managerForCharacteristic.readCharacteristicForIdentifier(
-          any, characteristic, argThat(isNotNull)),
+          any, characteristic, argThat(isNotNull)!),
     );
   });
 
@@ -106,7 +106,7 @@ void main() {
     //then
     var transactionIds = verify(
       managerForCharacteristic.readCharacteristicForIdentifier(
-          any, characteristic, captureThat(isNotNull)),
+          any, characteristic, captureThat(isNotNull)!),
     ).captured;
     expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
@@ -141,7 +141,7 @@ void main() {
           characteristic,
           Uint8List.fromList([1, 2, 3, 4]),
           false,
-          argThat(isNotNull)),
+          argThat(isNotNull)!),
     );
   });
 
@@ -159,7 +159,7 @@ void main() {
                 characteristic,
                 Uint8List.fromList([1, 2, 3, 4]),
                 false,
-                captureThat(isNotNull)))
+                captureThat(isNotNull)!))
         .captured;
     expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
@@ -211,7 +211,7 @@ void main() {
     //then
     verify(
       managerForCharacteristic.monitorCharacteristicForIdentifier(
-          any, characteristic, argThat(isNotNull)),
+          any, characteristic, argThat(isNotNull)!),
     );
   });
 
@@ -225,7 +225,7 @@ void main() {
     //then
     var transactionIds = verify(
             managerForCharacteristic.monitorCharacteristicForIdentifier(
-                any, characteristic, captureThat(isNotNull)))
+                any, characteristic, captureThat(isNotNull)!))
         .captured;
     expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
@@ -266,7 +266,7 @@ void main() {
     //then
     verify(
       managerForCharacteristic.readDescriptorForCharacteristic(
-          characteristic, "123", argThat(isNotNull)),
+          characteristic, "123", argThat(isNotNull)!),
     );
   });
 
@@ -280,7 +280,7 @@ void main() {
     //then
     var transactionIds = verify(
       managerForCharacteristic.readDescriptorForCharacteristic(
-          characteristic, "123", captureThat(isNotNull)),
+          characteristic, "123", captureThat(isNotNull)!),
     ).captured;
     expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
@@ -330,7 +330,7 @@ void main() {
         characteristic,
         "123",
         Uint8List.fromList([1, 2, 3, 4]),
-        argThat(isNotNull),
+        argThat(isNotNull)!,
       ),
     );
   });
@@ -348,7 +348,7 @@ void main() {
           characteristic,
           "123",
           Uint8List.fromList([1, 2, 3, 4]),
-          captureThat(isNotNull)),
+          captureThat(isNotNull)!),
     ).captured;
     expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });

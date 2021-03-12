@@ -1,7 +1,7 @@
 part of _internal;
 
 mixin ScanningMixin on FlutterBLE {
-  Stream<ScanResult> _scanEvents;
+  Stream<ScanResult>? _scanEvents;
 
   void _prepareScanEventsStream() {
     _scanEvents = const EventChannel(ChannelName.scanningEvents)
@@ -40,7 +40,7 @@ mixin ScanningMixin on FlutterBLE {
     );
 
     streamController
-        .addStream(_scanEvents, cancelOnError: true)
+        .addStream(_scanEvents!, cancelOnError: true)
         .then((_) => streamController?.close());
 
     return streamController.stream;

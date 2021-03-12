@@ -7,7 +7,7 @@ class InternalBleManager
         ManagerForService,
         ManagerForCharacteristic,
         ManagerForDescriptor {
-  FlutterBleLib _bleLib;
+  late FlutterBleLib _bleLib;
 
   InternalBleManager() {
     _bleLib = FlutterBleLib();
@@ -16,8 +16,8 @@ class InternalBleManager
 
   @override
   Future<void> createClient({
-    String restoreStateIdentifier,
-    RestoreStateAction restoreStateAction,
+    String? restoreStateIdentifier,
+    RestoreStateAction? restoreStateAction,
   }) {
     if (restoreStateAction != null) {
       _bleLib.restoredState().then((devices) {
@@ -35,11 +35,11 @@ class InternalBleManager
       _bleLib.cancelTransaction(transactionId);
 
   @override
-  Future<void> enableRadio({String transactionId}) =>
+  Future<void> enableRadio({String? transactionId}) =>
       _bleLib.enableRadio(transactionId ?? TransactionIdGenerator.getNextId());
 
   @override
-  Future<void> disableRadio({String transactionId}) =>
+  Future<void> disableRadio({String? transactionId}) =>
       _bleLib.disableRadio(transactionId ?? TransactionIdGenerator.getNextId());
 
   @override
@@ -63,7 +63,7 @@ class InternalBleManager
   Future<void> stopPeripheralScan() => _bleLib.stopDeviceScan();
 
   @override
-  Peripheral createUnsafePeripheral(String peripheralId, {String name}) {
+  Peripheral createUnsafePeripheral(String peripheralId, {String? name}) {
     const nameField = 'name';
     const identifierField = 'id';
     return Peripheral.fromJson({
@@ -74,18 +74,18 @@ class InternalBleManager
 
   @override
   Future<void> connectToPeripheral(
-    String identifier, {
-    bool isAutoConnect,
-    int requestMtu,
-    bool refreshGatt,
-    Duration timeout,
+    String? identifier, {
+    bool? isAutoConnect,
+    int? requestMtu,
+    bool? refreshGatt,
+    Duration? timeout,
   }) async =>
       _bleLib.connectToPeripheral(
           identifier, isAutoConnect, requestMtu, refreshGatt, timeout);
 
   @override
   Stream<PeripheralConnectionState> observePeripheralConnectionState(
-      String peripheralIdentifier,
+      String? peripheralIdentifier,
       bool emitCurrentValue,
       bool completeOnDisconnect) {
     var streamTransformer = StreamTransformer<PeripheralConnectionState,
@@ -112,11 +112,11 @@ class InternalBleManager
 
   @override
   Future<void> disconnectOrCancelPeripheralConnection(
-          String peripheralIdentifier) =>
+          String? peripheralIdentifier) =>
       _bleLib.disconnectOrCancelPeripheralConnection(peripheralIdentifier);
 
   @override
-  Future<bool> isPeripheralConnected(String peripheralIdentifier) =>
+  Future<bool?> isPeripheralConnected(String? peripheralIdentifier) =>
       _bleLib.isPeripheralConnected(peripheralIdentifier);
 
   @override
@@ -173,7 +173,7 @@ class InternalBleManager
       _bleLib.characteristicsForService(service);
 
   @override
-  Future<int> rssi(
+  Future<int?> rssi(
     Peripheral peripheral,
     String transactionId,
   ) {
@@ -200,7 +200,7 @@ class InternalBleManager
 
   @override
   Future<Uint8List> readCharacteristicForIdentifier(
-    Peripheral peripheral,
+    Peripheral? peripheral,
     InternalCharacteristic characteristic,
     String transactionId,
   ) =>
@@ -222,7 +222,7 @@ class InternalBleManager
 
   @override
   Future<CharacteristicWithValue> readCharacteristicForService(
-          Peripheral peripheral,
+          Peripheral? peripheral,
           InternalService service,
           String characteristicUuid,
           String transactionId) =>
@@ -235,7 +235,7 @@ class InternalBleManager
 
   @override
   Future<void> writeCharacteristicForIdentifier(
-          Peripheral peripheral,
+          Peripheral? peripheral,
           InternalCharacteristic characteristic,
           Uint8List value,
           bool withResponse,
@@ -267,7 +267,7 @@ class InternalBleManager
 
   @override
   Future<Characteristic> writeCharacteristicForService(
-          Peripheral peripheral,
+          Peripheral? peripheral,
           InternalService service,
           String characteristicUuid,
           Uint8List value,
@@ -298,7 +298,7 @@ class InternalBleManager
 
   @override
   Stream<CharacteristicWithValue> monitorCharacteristicForService(
-    Peripheral peripheral,
+    Peripheral? peripheral,
     InternalService service,
     String characteristicUuid,
     String transactionId,
@@ -311,8 +311,8 @@ class InternalBleManager
       );
 
   @override
-  Stream<Uint8List> monitorCharacteristicForIdentifier(
-    Peripheral peripheral,
+  Stream<Uint8List?> monitorCharacteristicForIdentifier(
+    Peripheral? peripheral,
     InternalCharacteristic characteristic,
     String transactionId,
   ) =>

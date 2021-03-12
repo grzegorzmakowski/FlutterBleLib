@@ -5,8 +5,8 @@ mixin DeviceConnectionMixin on FlutterBLE {
       const EventChannel(ChannelName.connectionStateChangeEvents)
           .receiveBroadcastStream();
 
-  Future<void> connectToPeripheral(String deviceIdentifier, bool isAutoConnect,
-      int requestMtu, bool refreshGatt, Duration timeout) async {
+  Future<void> connectToPeripheral(String? deviceIdentifier, bool? isAutoConnect,
+      int? requestMtu, bool? refreshGatt, Duration? timeout) async {
     return await _methodChannel.invokeMethod(
       MethodName.connectToDevice,
       <String, dynamic>{
@@ -24,7 +24,7 @@ mixin DeviceConnectionMixin on FlutterBLE {
   }
 
   Stream<PeripheralConnectionState> observePeripheralConnectionState(
-      String identifier, bool emitCurrentValue) {
+      String? identifier, bool emitCurrentValue) {
     var controller = StreamController<PeripheralConnectionState>(
       onListen: () => _methodChannel.invokeMethod(
         MethodName.observeConnectionState,
@@ -45,7 +45,7 @@ mixin DeviceConnectionMixin on FlutterBLE {
         .map((connectionStateContainer) =>
             connectionStateContainer.connectionState)
         .map((connectionStateString) {
-      switch (connectionStateString.toLowerCase()) {
+      switch (connectionStateString!.toLowerCase()) {
         case NativeConnectionState.connected:
           return PeripheralConnectionState.connected;
         case NativeConnectionState.connecting:
@@ -71,19 +71,19 @@ mixin DeviceConnectionMixin on FlutterBLE {
     return controller.stream;
   }
 
-  Future<bool> isPeripheralConnected(String peripheralIdentifier) async {
-    return await _methodChannel
+  Future<bool?> isPeripheralConnected(String? peripheralIdentifier) async {
+    return await (_methodChannel
         .invokeMethod(MethodName.isDeviceConnected, <String, dynamic>{
       ArgumentName.deviceIdentifier: peripheralIdentifier,
     }).catchError(
       (errorJson) => Future.error(
         BleError.fromJson(jsonDecode(errorJson.details)),
       ),
-    );
+    ) as FutureOr<bool?>);
   }
 
   Future<void> disconnectOrCancelPeripheralConnection(
-      String peripheralIdentifier) async {
+      String? peripheralIdentifier) async {
     return await _methodChannel
         .invokeMethod(MethodName.cancelConnection, <String, dynamic>{
       ArgumentName.deviceIdentifier: peripheralIdentifier,

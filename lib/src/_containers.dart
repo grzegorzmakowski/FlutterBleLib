@@ -4,8 +4,8 @@ abstract class _ConnectionStateContainerMetadata {
 }
 
 class ConnectionStateContainer {
-  String peripheralIdentifier;
-  String connectionState;
+  String? peripheralIdentifier;
+  String? connectionState;
 
   ConnectionStateContainer.fromJson(Map<String, dynamic> json)
       : peripheralIdentifier =

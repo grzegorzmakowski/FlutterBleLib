@@ -21,7 +21,7 @@ class CharacteristicGenerator {
 
   CharacteristicWithValue create(int seed, Service service) =>
       CharacteristicWithValue.fromJson(
-        _createRawCharacteristic(seed),
+        _createRawCharacteristic(seed) as Map<String, dynamic>,
         service,
         managerForCharacteristic,
       );

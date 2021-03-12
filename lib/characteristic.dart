@@ -18,30 +18,30 @@ abstract class _CharacteristicMetadata {
 /// a characteristic’s value, and how you access the descriptors.
 class Characteristic extends InternalCharacteristic {
   /// The [Service] containing this characteristic.
-  Service service;
+  Service? service;
 
-  ManagerForCharacteristic _manager;
+  ManagerForCharacteristic? _manager;
 
   /// The UUID of this characteristic.
-  String uuid;
+  String? uuid;
 
   /// True if this characteristic can be read.
-  bool isReadable;
+  bool? isReadable;
 
   /// True if this characteristic can be written with resposne.
-  bool isWritableWithResponse;
+  bool? isWritableWithResponse;
 
   /// True if this characteristic can be written without resposne.
-  bool isWritableWithoutResponse;
+  bool? isWritableWithoutResponse;
 
   /// True if this characteristic can be monitored via notifications.
-  bool isNotifiable;
+  bool? isNotifiable;
 
   /// True if this characteristic can be monitored via indications.
-  bool isIndicatable;
+  bool? isIndicatable;
 
   Characteristic.fromJson(Map<String, dynamic> jsonObject, Service service,
-      ManagerForCharacteristic manager)
+      ManagerForCharacteristic? manager)
       : super(jsonObject[_CharacteristicMetadata.id]) {
     _manager = manager;
     this.service = service;
@@ -58,9 +58,9 @@ class Characteristic extends InternalCharacteristic {
   /// Reads the value of this characteristic.
   ///
   /// The value can be read only if [isReadable] is `true`.
-  Future<Uint8List> read({String transactionId}) =>
-      _manager.readCharacteristicForIdentifier(
-        service.peripheral,
+  Future<Uint8List> read({String? transactionId}) =>
+      _manager!.readCharacteristicForIdentifier(
+        service!.peripheral,
         this,
         transactionId ?? TransactionIdGenerator.getNextId(),
       );
@@ -73,10 +73,10 @@ class Characteristic extends InternalCharacteristic {
   Future<void> write(
     Uint8List value,
     bool withResponse, {
-    String transactionId,
+    String? transactionId,
   }) =>
-      _manager.writeCharacteristicForIdentifier(
-        service.peripheral,
+      _manager!.writeCharacteristicForIdentifier(
+        service!.peripheral,
         this,
         value,
         withResponse,
@@ -91,23 +91,23 @@ class Characteristic extends InternalCharacteristic {
   /// Subscribing to the returned object enables the notifications/indications
   /// on the peripheral. Cancelling the last subscription disables the
   /// notifications/indications on this characteristic.
-  Stream<Uint8List> monitor({String transactionId}) =>
-      _manager.monitorCharacteristicForIdentifier(
-        service.peripheral,
+  Stream<Uint8List?> monitor({String? transactionId}) =>
+      _manager!.monitorCharacteristicForIdentifier(
+        service!.peripheral,
         this,
         transactionId ?? TransactionIdGenerator.getNextId(),
       );
 
   /// Returns a list of [Descriptor]s of this characteristic.
   Future<List<Descriptor>> descriptors() =>
-      _manager.descriptorsForCharacteristic(this);
+      _manager!.descriptorsForCharacteristic(this);
 
   /// Reads the value of a [Descriptor] identified by [descriptorUuid].
   Future<DescriptorWithValue> readDescriptor(
     String descriptorUuid, {
-    String transactionId,
+    String? transactionId,
   }) =>
-      _manager.readDescriptorForCharacteristic(
+      _manager!.readDescriptorForCharacteristic(
         this,
         descriptorUuid,
         transactionId ?? TransactionIdGenerator.getNextId(),
@@ -117,9 +117,9 @@ class Characteristic extends InternalCharacteristic {
   Future<Descriptor> writeDescriptor(
     String descriptorUuid,
     Uint8List value, {
-    String transactionId,
+    String? transactionId,
   }) =>
-      _manager.writeDescriptorForCharacteristic(
+      _manager!.writeDescriptorForCharacteristic(
         this,
         descriptorUuid,
         value,
@@ -174,7 +174,7 @@ class CharacteristicWithValue extends Characteristic with WithValue {
   CharacteristicWithValue.fromJson(
     Map<String, dynamic> jsonObject,
     Service service,
-    ManagerForCharacteristic manager,
+    ManagerForCharacteristic? manager,
   ) : super.fromJson(jsonObject, service, manager) {
     value = base64Decode(jsonObject[_CharacteristicMetadata.value]);
   }

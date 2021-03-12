@@ -14,16 +14,16 @@ abstract class _BleErrorMetadata {
 
 class BleError {
   BleErrorCode errorCode;
-  int attErrorCode;
-  int iosErrorCode;
-  int androidErrorCode;
-  String reason;
+  int? attErrorCode;
+  int? iosErrorCode;
+  int? androidErrorCode;
+  String? reason;
 
-  String deviceID;
-  String serviceUuid;
-  String characteristicUuid;
-  String descriptorUuid;
-  String internalMessage;
+  String? deviceID;
+  String? serviceUuid;
+  String? characteristicUuid;
+  String? descriptorUuid;
+  String? internalMessage;
 
   BleError.fromJson(Map<String, dynamic> json)
       : errorCode = BleErrorCode(json[_BleErrorMetadata.errorCode]),
@@ -97,7 +97,7 @@ class BleErrorCode {
   static const int scanStartFailed = 600;
   static const int locationServicesDisabled = 601;
 
-  int value;
+  int? value;
 
   BleErrorCode(this.value);
 }

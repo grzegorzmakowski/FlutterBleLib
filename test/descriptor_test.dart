@@ -56,7 +56,7 @@ void main() {
     //then
     verify(
       managerForDescriptor.readDescriptorForIdentifier(
-          descriptor, argThat(isNotNull)),
+          descriptor, argThat(isNotNull)!),
     );
   });
 
@@ -70,7 +70,7 @@ void main() {
     //then
     var transactionIds = verify(
       managerForDescriptor.readDescriptorForIdentifier(
-          descriptor, captureThat(isNotNull)),
+          descriptor, captureThat(isNotNull)!),
     ).captured;
     expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
@@ -97,7 +97,7 @@ void main() {
     //then
     verify(
       managerForDescriptor.writeDescriptorForIdentifier(
-          descriptor, Uint8List.fromList([1, 2, 3, 4]), argThat(isNotNull)),
+          descriptor, Uint8List.fromList([1, 2, 3, 4]), argThat(isNotNull)!),
     );
   });
 
@@ -111,7 +111,7 @@ void main() {
     //then
     var transactionIds = verify(
             managerForDescriptor.writeDescriptorForIdentifier(descriptor,
-                Uint8List.fromList([1, 2, 3, 4]), captureThat(isNotNull)))
+                Uint8List.fromList([1, 2, 3, 4]), captureThat(isNotNull)!))
         .captured;
     expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });

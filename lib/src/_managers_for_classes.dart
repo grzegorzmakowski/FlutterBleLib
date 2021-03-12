@@ -6,20 +6,20 @@ import '_internal.dart';
 
 abstract class ManagerForPeripheral {
   Future<void> connectToPeripheral(
-    String peripheralIdentifier, {
-    bool isAutoConnect,
-    int requestMtu,
-    bool refreshGatt,
-    Duration timeout,
+    String? peripheralIdentifier, {
+    bool? isAutoConnect,
+    int? requestMtu,
+    bool? refreshGatt,
+    Duration? timeout,
   });
 
-  Future<bool> isPeripheralConnected(String peripheralIdentifier);
+  Future<bool?> isPeripheralConnected(String? peripheralIdentifier);
 
   Future<void> disconnectOrCancelPeripheralConnection(
-      String peripheralIdentifier);
+      String? peripheralIdentifier);
 
   Stream<PeripheralConnectionState> observePeripheralConnectionState(
-    String peripheralIdentifier,
+    String? peripheralIdentifier,
     bool emitCurrentValue,
     bool completeOnDisconnect,
   );
@@ -34,7 +34,7 @@ abstract class ManagerForPeripheral {
     String serviceUuid,
   );
 
-  Future<int> rssi(
+  Future<int?> rssi(
     Peripheral peripheral,
     String transactionId,
   );
@@ -95,14 +95,14 @@ abstract class ManagerForService {
   Future<List<Characteristic>> characteristicsForService(Service service);
 
   Future<CharacteristicWithValue> readCharacteristicForService(
-    Peripheral peripheral,
+    Peripheral? peripheral,
     InternalService service,
     String characteristicUuid,
     String transactionId,
   );
 
   Future<Characteristic> writeCharacteristicForService(
-    Peripheral peripheral,
+    Peripheral? peripheral,
     InternalService service,
     String characteristicUuid,
     Uint8List value,
@@ -111,7 +111,7 @@ abstract class ManagerForService {
   );
 
   Stream<CharacteristicWithValue> monitorCharacteristicForService(
-    Peripheral peripheral,
+    Peripheral? peripheral,
     InternalService service,
     String characteristicUuid,
     String transactionId,
@@ -140,21 +140,21 @@ abstract class ManagerForService {
 
 abstract class ManagerForCharacteristic {
   Future<Uint8List> readCharacteristicForIdentifier(
-    Peripheral peripheral,
+    Peripheral? peripheral,
     InternalCharacteristic characteristic,
     String transactionId,
   );
 
   Future<void> writeCharacteristicForIdentifier(
-    Peripheral peripheral,
+    Peripheral? peripheral,
     InternalCharacteristic characteristic,
     Uint8List value,
     bool withResponse,
     String transactionId,
   );
 
-  Stream<Uint8List> monitorCharacteristicForIdentifier(
-    Peripheral peripheral,
+  Stream<Uint8List?> monitorCharacteristicForIdentifier(
+    Peripheral? peripheral,
     InternalCharacteristic characteristic,
     String transactionId,
   );

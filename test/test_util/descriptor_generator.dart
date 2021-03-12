@@ -16,7 +16,7 @@ class DescriptorGenerator {
 
   DescriptorWithValue create(int seed, Characteristic characteristic) =>
       DescriptorWithValue.fromJson(
-        _createRawDescriptor(seed),
+        _createRawDescriptor(seed) as Map<String, dynamic>,
         characteristic,
         managerForDescriptor,
       );
