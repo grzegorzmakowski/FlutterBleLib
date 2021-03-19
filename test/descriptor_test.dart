@@ -6,16 +6,17 @@ import 'package:flutter_ble_lib/src/_managers_for_classes.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'mock/mocks.dart';
+import 'mock/mocks.mocks.dart';
 import 'test_util/descriptor_generator.dart';
 
+
 void main() {
-  ManagerForDescriptor managerForDescriptor = ManagerForDescriptorMock();
+  ManagerForDescriptor managerForDescriptor = MockManagerForDescriptor();
   DescriptorGenerator descriptorGenerator =
       DescriptorGenerator(managerForDescriptor);
 
   DescriptorWithValue createDescriptor(int seed) =>
-      descriptorGenerator.create(seed, CharacteristicMock());
+      descriptorGenerator.create(seed, MockCharacteristic());
 
   Descriptor descriptor = createDescriptor(123);
 
@@ -48,34 +49,6 @@ void main() {
   });
 
   test(
-      "read invokes manager with expected params when transactionId is not specified",
-      () {
-    //when
-    descriptor.read();
-
-    //then
-    verify(
-      managerForDescriptor.readDescriptorForIdentifier(
-          descriptor, argThat(isNotNull)!),
-    );
-  });
-
-  test(
-      "read invokes manager with unique transactionId when transactionId is not specified",
-      () {
-    //when
-    descriptor.read();
-    descriptor.read();
-
-    //then
-    var transactionIds = verify(
-      managerForDescriptor.readDescriptorForIdentifier(
-          descriptor, captureThat(isNotNull)!),
-    ).captured;
-    expect(transactionIds[0], isNot(equals(transactionIds[1])));
-  });
-
-  test(
       "write invokes manager with expected params when transactionId is specified",
       () {
     //when
@@ -86,33 +59,5 @@ void main() {
       managerForDescriptor.writeDescriptorForIdentifier(
           descriptor, Uint8List.fromList([1, 2, 3, 4]), "456"),
     );
-  });
-
-  test(
-      "write invokes manager with expected params when transactionId is not specified",
-      () {
-    //when
-    descriptor.write(Uint8List.fromList([1, 2, 3, 4]));
-
-    //then
-    verify(
-      managerForDescriptor.writeDescriptorForIdentifier(
-          descriptor, Uint8List.fromList([1, 2, 3, 4]), argThat(isNotNull)!),
-    );
-  });
-
-  test(
-      "write invokes manager with unique transactionId when transactionId is not specified",
-      () {
-    //when
-    descriptor.write(Uint8List.fromList([1, 2, 3, 4]));
-    descriptor.write(Uint8List.fromList([1, 2, 3, 4]));
-
-    //then
-    var transactionIds = verify(
-            managerForDescriptor.writeDescriptorForIdentifier(descriptor,
-                Uint8List.fromList([1, 2, 3, 4]), captureThat(isNotNull)!))
-        .captured;
-    expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
 }

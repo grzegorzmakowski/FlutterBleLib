@@ -6,16 +6,16 @@ import 'package:flutter_ble_lib/src/_managers_for_classes.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'mock/mocks.dart';
+import 'mock/mocks.mocks.dart';
 import 'test_util/characteristic_generator.dart';
 import 'test_util/descriptor_generator.dart';
 
 void main() {
-  Peripheral peripheral = PeripheralMock();
-  ManagerForService managerForService = ManagerForServiceMock();
+  Peripheral peripheral = MockPeripheral();
+  ManagerForService managerForService = MockManagerForService();
   ManagerForCharacteristic managerForCharacteristic =
-      ManagerForCharacteristicMock();
-  ManagerForDescriptor managerForDescriptor = ManagerForDescriptorMock();
+      MockManagerForCharacteristic();
+  ManagerForDescriptor managerForDescriptor = MockManagerForDescriptor();
   CharacteristicGenerator characteristicGenerator =
       CharacteristicGenerator(managerForCharacteristic);
   DescriptorGenerator descriptorGenerator =
@@ -112,19 +112,6 @@ void main() {
     );
   });
 
-  test(
-      "readCharacteristic reads characteristic with generated transactionId using manager",
-      () {
-    //when
-    service.readCharacteristic("123", transactionId: null);
-
-    //then
-    verify(
-      managerForService.readCharacteristicForService(
-          peripheral, service, "123", argThat(isNotNull)!),
-    );
-  });
-
   test("readDescriptor returns expected descriptor", () async {
     //given
     when(managerForService.readDescriptorForService(
@@ -146,19 +133,6 @@ void main() {
     //then
     verify(
       managerForService.readDescriptorForService(service, "123", "456", "a789"),
-    );
-  });
-
-  test(
-      "readDescriptor reads descriptor with generated transactionId using manager",
-      () {
-    //when
-    service.readDescriptor("123", "456", transactionId: null);
-
-    //then
-    verify(
-      managerForService.readDescriptorForService(
-          service, "123", "456", argThat(isNotNull)!),
     );
   });
 
@@ -192,20 +166,6 @@ void main() {
     );
   });
 
-  test(
-      "writeCharacteristic writes characteristic with generated transactionId using manager",
-      () {
-    //when
-    service.writeCharacteristic("123", Uint8List.fromList([1, 2, 3, 4]), false,
-        transactionId: null);
-
-    //then
-    verify(
-      managerForService.writeCharacteristicForService(peripheral, service,
-          "123", Uint8List.fromList([1, 2, 3, 4]), false, argThat(isNotNull)!),
-    );
-  });
-
   test("writeDescriptor returns expected descriptor", () async {
     //given
     when(managerForService.writeDescriptorForService(
@@ -230,20 +190,6 @@ void main() {
     verify(
       managerForService.writeDescriptorForService(
           service, "123", "456", Uint8List.fromList([1, 2, 3, 4]), "a789"),
-    );
-  });
-
-  test(
-      "writeDescriptor writes descriptor with generated transactionId using manager",
-      () {
-    //when
-    service.writeDescriptor("123", "456", Uint8List.fromList([1, 2, 3, 4]),
-        transactionId: null);
-
-    //then
-    verify(
-      managerForService.writeDescriptorForService(service, "123", "456",
-          Uint8List.fromList([1, 2, 3, 4]), argThat(isNotNull)!),
     );
   });
 
@@ -281,19 +227,6 @@ void main() {
     verify(
       managerForService.monitorCharacteristicForService(
           peripheral, service, "123", "a456"),
-    );
-  });
-
-  test(
-      "monitorCharacteristic monitors characteristic with generated transactionId using manager",
-      () {
-    //when
-    service.monitorCharacteristic("123", transactionId: null);
-
-    //then
-    verify(
-      managerForService.monitorCharacteristicForService(
-          peripheral, service, "123", argThat(isNotNull)!),
     );
   });
 }

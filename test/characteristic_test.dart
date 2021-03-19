@@ -7,20 +7,20 @@ import 'package:flutter_ble_lib/src/_managers_for_classes.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'mock/mocks.dart';
+import 'mock/mocks.mocks.dart';
 import 'test_util/characteristic_generator.dart';
 import 'test_util/descriptor_generator.dart';
 
 class ServiceMock extends Mock implements Service {}
 
 void main() {
-  Peripheral peripheral = PeripheralMock();
+  Peripheral peripheral = MockPeripheral();
   ManagerForCharacteristic managerForCharacteristic =
-      ManagerForCharacteristicMock();
+      MockManagerForCharacteristic();
   CharacteristicGenerator characteristicGenerator =
       CharacteristicGenerator(managerForCharacteristic);
   DescriptorGenerator descriptorGenerator =
-      DescriptorGenerator(ManagerForDescriptorMock());
+      DescriptorGenerator(MockManagerForDescriptor());
 
   Characteristic characteristic =
       characteristicGenerator.create(123, ServiceMock());
@@ -84,34 +84,6 @@ void main() {
   });
 
   test(
-      "read generates transactionId when it is not specified",
-      () {
-    //when
-    characteristic.read();
-
-    //then
-    verify(
-      managerForCharacteristic.readCharacteristicForIdentifier(
-          any, characteristic, argThat(isNotNull)!),
-    );
-  });
-
-  test(
-      "read generates unique transactionId for each operation",
-      () {
-    //when
-    characteristic.read();
-    characteristic.read();
-
-    //then
-    var transactionIds = verify(
-      managerForCharacteristic.readCharacteristicForIdentifier(
-          any, characteristic, captureThat(isNotNull)!),
-    ).captured;
-    expect(transactionIds[0], isNot(equals(transactionIds[1])));
-  });
-
-  test(
       "write invokes manager with expected params when transactionId is specified",
       () {
     //when
@@ -126,42 +98,6 @@ void main() {
       managerForCharacteristic.writeCharacteristicForIdentifier(
           any, characteristic, Uint8List.fromList([1, 2, 3, 4]), false, "a456"),
     );
-  });
-
-  test(
-      "write invokes manager with expected params when transactionId is not specified",
-      () {
-    //when
-    characteristic.write(Uint8List.fromList([1, 2, 3, 4]), false);
-
-    //then
-    verify(
-      managerForCharacteristic.writeCharacteristicForIdentifier(
-          any,
-          characteristic,
-          Uint8List.fromList([1, 2, 3, 4]),
-          false,
-          argThat(isNotNull)!),
-    );
-  });
-
-  test(
-      "write invokes manager with unique transactionId when transactionId is not specified",
-      () {
-    //when
-    characteristic.write(Uint8List.fromList([1, 2, 3, 4]), false);
-    characteristic.write(Uint8List.fromList([1, 2, 3, 4]), false);
-
-    //then
-    var transactionIds = verify(
-            managerForCharacteristic.writeCharacteristicForIdentifier(
-                any,
-                characteristic,
-                Uint8List.fromList([1, 2, 3, 4]),
-                false,
-                captureThat(isNotNull)!))
-        .captured;
-    expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
 
   test("monitor emits expected values", () {
@@ -202,34 +138,6 @@ void main() {
     );
   });
 
-  test(
-      "monitor invokes manager with expected params when transactionId is not specified",
-      () {
-    //when
-    characteristic.monitor();
-
-    //then
-    verify(
-      managerForCharacteristic.monitorCharacteristicForIdentifier(
-          any, characteristic, argThat(isNotNull)!),
-    );
-  });
-
-  test(
-      "monitor invokes manager with unique transactionId when transactionId is not specified",
-      () {
-    //when
-    characteristic.monitor();
-    characteristic.monitor();
-
-    //then
-    var transactionIds = verify(
-            managerForCharacteristic.monitorCharacteristicForIdentifier(
-                any, characteristic, captureThat(isNotNull)!))
-        .captured;
-    expect(transactionIds[0], isNot(equals(transactionIds[1])));
-  });
-
   test("readDescriptor returns expected descriptor", () async {
     //given
     when(managerForCharacteristic.readDescriptorForCharacteristic(
@@ -255,34 +163,6 @@ void main() {
       managerForCharacteristic.readDescriptorForCharacteristic(
           characteristic, "123", "a456"),
     );
-  });
-
-  test(
-      "readDescriptor invokes manager with expected params when transactionId is not specified",
-      () {
-    //when
-    characteristic.readDescriptor("123", transactionId: "a456");
-
-    //then
-    verify(
-      managerForCharacteristic.readDescriptorForCharacteristic(
-          characteristic, "123", argThat(isNotNull)!),
-    );
-  });
-
-  test(
-      "readDescriptor invokes manager with unique transactionId when transactionId is not specified",
-      () {
-    //when
-    characteristic.readDescriptor("123");
-    characteristic.readDescriptor("123");
-
-    //then
-    var transactionIds = verify(
-      managerForCharacteristic.readDescriptorForCharacteristic(
-          characteristic, "123", captureThat(isNotNull)!),
-    ).captured;
-    expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
 
   test("writeDescriptor returns expected descriptor", () async {
@@ -317,39 +197,5 @@ void main() {
       managerForCharacteristic.writeDescriptorForCharacteristic(
           characteristic, "123", Uint8List.fromList([1, 2, 3, 4]), "a456"),
     );
-  });
-
-  test(
-      "writeDescriptor invokes manager with expected params when transactionId is not specified",
-      () {
-    //when
-    characteristic.writeDescriptor("123", Uint8List.fromList([1, 2, 3, 4]));
-    //then
-    verify(
-      managerForCharacteristic.writeDescriptorForCharacteristic(
-        characteristic,
-        "123",
-        Uint8List.fromList([1, 2, 3, 4]),
-        argThat(isNotNull)!,
-      ),
-    );
-  });
-
-  test(
-      "writeDescriptor invokes manager with unique transactionId when transactionId is not specified",
-      () {
-    //when
-    characteristic.writeDescriptor("123", Uint8List.fromList([1, 2, 3, 4]));
-    characteristic.writeDescriptor("123", Uint8List.fromList([1, 2, 3, 4]));
-
-    //then
-    var transactionIds = verify(
-      managerForCharacteristic.writeDescriptorForCharacteristic(
-          characteristic,
-          "123",
-          Uint8List.fromList([1, 2, 3, 4]),
-          captureThat(isNotNull)!),
-    ).captured;
-    expect(transactionIds[0], isNot(equals(transactionIds[1])));
   });
 }

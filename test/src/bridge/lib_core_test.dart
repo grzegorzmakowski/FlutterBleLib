@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../json/ble_error_jsons.dart';
-import '../../mock/mocks.dart';
+import '../../mock/mocks.mocks.dart';
 
 const flutterBleLibMethodChannelName = 'flutter_ble_lib';
 const monitorCharacteristicEventChannelName =
@@ -20,7 +20,7 @@ const monitorCharacteristicEventChannelName =
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late FlutterBleLib bleLib;
-  Peripheral peripheral = PeripheralMock();
+  Peripheral peripheral = MockPeripheral();
   MethodChannel methodChannel = MethodChannel(flutterBleLibMethodChannelName);
   MethodChannel eventMethodChannel =
       MethodChannel(monitorCharacteristicEventChannelName);
