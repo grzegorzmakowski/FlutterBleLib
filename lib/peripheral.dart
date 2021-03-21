@@ -68,7 +68,7 @@ class Peripheral {
           identifier, emitCurrentValue, completeOnDisconnect);
 
   /// Returns whether this peripheral is connected.
-  Future<bool?> isConnected() => _manager!.isPeripheralConnected(identifier);
+  Future<bool> isConnected() => _manager!.isPeripheralConnected(identifier);
 
   /// Disconnects from this peripheral if it's connected or cancels pending
   /// connection.

@@ -56,9 +56,9 @@ class MockPeripheral extends _i1.Mock implements _i2.Peripheral {
               returnValue: Stream<_i2.PeripheralConnectionState>.empty())
           as _i4.Stream<_i2.PeripheralConnectionState>);
   @override
-  _i4.Future<bool?> isConnected() =>
+  _i4.Future<bool> isConnected() =>
       (super.noSuchMethod(Invocation.method(#isConnected, []),
-          returnValue: Future.value(false)) as _i4.Future<bool?>);
+          returnValue: Future.value(false)) as _i4.Future<bool>);
   @override
   _i4.Future<void> disconnectOrCancelConnection() =>
       (super.noSuchMethod(Invocation.method(#disconnectOrCancelConnection, []),

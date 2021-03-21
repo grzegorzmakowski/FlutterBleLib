@@ -13,7 +13,7 @@ abstract class ManagerForPeripheral {
     Duration? timeout,
   });
 
-  Future<bool?> isPeripheralConnected(String? peripheralIdentifier);
+  Future<bool> isPeripheralConnected(String? peripheralIdentifier);
 
   Future<void> disconnectOrCancelPeripheralConnection(
       String? peripheralIdentifier);

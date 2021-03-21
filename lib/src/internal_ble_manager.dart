@@ -116,8 +116,10 @@ class InternalBleManager
       _bleLib.disconnectOrCancelPeripheralConnection(peripheralIdentifier);
 
   @override
-  Future<bool?> isPeripheralConnected(String? peripheralIdentifier) =>
-      _bleLib.isPeripheralConnected(peripheralIdentifier);
+  Future<bool> isPeripheralConnected(String? peripheralIdentifier) async {
+      var isConnected = await _bleLib.isPeripheralConnected(peripheralIdentifier);
+      return Future.value(isConnected ?? false);
+  }
 
   @override
   Future<LogLevel> logLevel() {

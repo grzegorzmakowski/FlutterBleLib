@@ -72,14 +72,14 @@ mixin DeviceConnectionMixin on FlutterBLE {
   }
 
   Future<bool?> isPeripheralConnected(String? peripheralIdentifier) async {
-    return await (_methodChannel
+    return await _methodChannel
         .invokeMethod(MethodName.isDeviceConnected, <String, dynamic>{
       ArgumentName.deviceIdentifier: peripheralIdentifier,
     }).catchError(
       (errorJson) => Future.error(
         BleError.fromJson(jsonDecode(errorJson.details)),
       ),
-    ) as FutureOr<bool?>);
+    );
   }
 
   Future<void> disconnectOrCancelPeripheralConnection(
